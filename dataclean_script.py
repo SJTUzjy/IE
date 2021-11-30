@@ -1,7 +1,7 @@
 import csv
 
-f = open('comments.csv', 'r', encoding='ISO-8859-1')
-lf = open('long_comments.csv', 'w', encoding='ISO-8859-1')
+f = open('comments.csv', 'r', encoding='utf-8')
+lf = open('long_comments.csv', 'w', newline="", encoding='utf-8')
 tmplf = []
 with f:
     reader = csv.reader(f)
@@ -11,7 +11,7 @@ with f:
         if t == 1:
             tmplf.append(row)
             continue
-        if len(row[3]) > 10:
+        if len(row[3]) > 10 and len(row[6]) > 0:
             tmplf.append(row)
 with lf:
     writer = csv.writer(lf)
