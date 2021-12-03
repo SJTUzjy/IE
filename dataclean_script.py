@@ -2,6 +2,7 @@ import csv
 
 f = open('comments.csv', 'r', encoding='utf-8')
 lf = open('long_comments.csv', 'w', newline="", encoding='utf-8')
+# test_lf=open('test_long_comments.csv', 'w', newline="", encoding='utf-8')
 tmplf = []
 with f:
     reader = csv.reader(f)
