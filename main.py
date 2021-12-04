@@ -102,7 +102,7 @@ if __name__ == '__main__':
     # for epoch in range(num_epoches):
     #     for token_idx,attn_masks,token_type_ids,label in train_dataloader:
     #         print(token_idx,attn_masks,token_type_ids, label)
-    model=MyModel(freeze_bert=True,model_name=model_name,bert_hidden_size=768,num_class=5)
+    model=MyModel(freeze_bert=False,model_name=model_name,bert_hidden_size=768,num_class=5)
     criterion=nn.CrossEntropyLoss()
     optimizer=AdamW(model.parameters(),lr=1e-5,weight_decay=1e-2)
 
