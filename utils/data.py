@@ -4,7 +4,7 @@ from transformers import AutoTokenizer
 
 
 class MyDataset(Dataset):
-    def __init__(self, filename,max_len=150,model_name="hfl/chinese-xlnet-base"):
+    def __init__(self, filename,max_len=100,model_name="hfl/chinese-xlnet-base"):
         self.data = []
         f = open(filename, 'r', encoding='utf-8')
         with f:
