@@ -8,7 +8,7 @@ Batch_size=4
 model_name="hfl/chinese-xlnet-base"
 #device=torch.device("cpu")
 device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
+best_accuracy = 0.0
 
 #set random seed
 def set_seed(seed):
@@ -90,19 +90,19 @@ if __name__ == '__main__':
     train_size=int(0.8*len(dataset))
     val_size=len(dataset)-train_size
     train_dataset,val_dataset=torch.utils.data.random_split(dataset,[train_size,val_size])
-    train_dataloader = torch.utils.data.DataLoader(train_dataset,batch_size=Batch_size,num_workers=5,shuffle=True)
+    train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=Batch_size,num_workers=0,shuffle=True)
     #token_idx,attn_masks,token_type_ids,label = train_dataloader[0]
     #print(token_idx,attn_masks,token_type_ids,label)
     # for token_idx,attn_masks,token_type_ids,label in train_dataloader:
     #         print(token_type_ids,attn_masks, label)
     #         break
-    val_dataloader=torch.utils.data.DataLoader(val_dataset,batch_size=Batch_size,num_workers=5,shuffle=False)
+    val_dataloader=torch.utils.data.DataLoader(val_dataset, batch_size=Batch_size,num_workers=0,shuffle=False)
 
     # num_epoches = 1
     # for epoch in range(num_epoches):
     #     for token_idx,attn_masks,token_type_ids,label in train_dataloader:
     #         print(token_idx,attn_masks,token_type_ids, label)
-    model=MyModel(freeze_bert=True,model_name=model_name,bert_hidden_size=768,num_class=5)
+    model=MyModel(freeze_bert=False,model_name=model_name,bert_hidden_size=768,num_class=5)
     criterion=nn.CrossEntropyLoss()
     optimizer=AdamW(model.parameters(),lr=1e-5,weight_decay=1e-2)
 
