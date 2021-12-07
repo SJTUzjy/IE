@@ -1,8 +1,6 @@
 import csv
 import re
 
-f = open('comments.csv', 'r', encoding='utf-8')
-lf = open('long_comments_delete_english.csv', 'w', newline="", encoding='utf-8')
 # test_lf=open('test_long_comments.csv', 'w', newline="", encoding='utf-8')
 
 
@@ -11,7 +9,7 @@ def rm_english(s):
 
 if __name__ == '__main__':
     tmplf = []
-    with f:
+    with open('comments.csv', 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         t = 0
         for row in reader:
@@ -19,9 +17,13 @@ if __name__ == '__main__':
             if t == 1:
                 tmplf.append(row)
                 continue
+            if len(row[6]) > 0 and int(row[6]) == 3:
+                continue
             if len(row[3]) > 10 and len(row[6]) > 0:
                 if rm_english(row[3]) == row[3]:
                     tmplf.append(row)
-    with lf:
+            # Small data to test binary classify.
+            if t > 200000: break
+    with open('long_comments_delete_english_small.csv', 'w', newline="", encoding='utf-8') as lf:
         writer = csv.writer(lf)
         writer.writerows(tmplf)

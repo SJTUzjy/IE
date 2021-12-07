@@ -6,8 +6,7 @@ from transformers import AutoTokenizer
 class MyDataset(Dataset):
     def __init__(self, filename,max_len=100,model_name="hfl/chinese-xlnet-base"):
         self.data = []
-        f = open(filename, 'r', encoding='utf-8')
-        with f:
+        with open(filename, 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
             t = 0
             for row in reader:
@@ -25,11 +24,12 @@ class MyDataset(Dataset):
                                     max_length=self.max_len,
                                     return_tensors="pt"
                                     )
-        token_idx=encoder_pair["input_ids"].squeeze(0)#tnesor of token ids
-        attn_masks=encoder_pair["attention_mask"].squeeze(0)#binary tnesor with "0" for padded value and "1" for other value
-        token_type_ids=encoder_pair["token_type_ids"].squeeze(0)#binary tensor with "0" for the 1st sentence token and "1" for the 2nd sentence tokens,and "3" for padding tokens
+        token_idx=encoder_pair["input_ids"].squeeze(0)  #tensor of token ids
+        attn_masks=encoder_pair["attention_mask"].squeeze(0)    #binary tensor with "0" for padded value and "1" for other value
+        token_type_ids=encoder_pair["token_type_ids"].squeeze(0)    #binary tensor with "0" for the 1st sentence token and "1" for the 2nd sentence tokens,and "3" for padding tokens
         #print(tmp[3])
-        label=int(tmp[6])-1
+        if int(tmp[6]) > 3: label = float(1)
+        elif int(tmp[6]) < 3: label = float(0)
         return token_idx,attn_masks,token_type_ids,label
 
     def __len__(self):

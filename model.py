@@ -9,6 +9,7 @@ device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 #初步定义模型，需要修改完善
 class MyLoss(nn.Module):
+    # Not used in BCE only
     def __init__(self):
         super(MyLoss,self).__init__()
         self.label=torch.arange(1,6).reshape(1,5).to(device)
@@ -26,7 +27,7 @@ class MyLoss(nn.Module):
 
 
 class MyModel(nn.Module):
-    def __init__(self,freeze_bert=False,model_name="hfl/chinese-xlnet-base",bert_hidden_size=768,num_class=5,lstm_hidden_dim=384,n_layers=2,bidirectional=True):
+    def __init__(self,freeze_bert=False,model_name="hfl/chinese-xlnet-base",bert_hidden_size=768,num_class=1,lstm_hidden_dim=384,n_layers=2,bidirectional=True):
         super(MyModel,self).__init__()
         self.n_layers=n_layers
         self.hidden_dim=lstm_hidden_dim
@@ -40,7 +41,7 @@ class MyModel(nn.Module):
 
         self.lstm=nn.LSTM(bert_hidden_size,lstm_hidden_dim,n_layers,batch_first=True,bidirectional=bidirectional)
 
-        self.dropout=nn.Dropout(0.5)
+        self.dropout=nn.Dropout(0.25)
         if bidirectional:
             self.layer1=nn.Sequential(
                 nn.Linear(lstm_hidden_dim*2,128),
@@ -74,7 +75,7 @@ class MyModel(nn.Module):
         out=self.dropout(hidden_last_out)
         out=self.layer1(out)
         out=self.layer2(out)
-        return out
+        return out.reshape(-1)
         #hidden_states=torch.cat( tuple( [ output.hidden_states[i] for i in [-1,-2,-3,-4] ]  ) ,dim=-1 )
         #first_hidden_states=hidden_states[:,0,:]#选取第一个词的hidden-state作为最后的输出
         #logits=self.fc(first_hidden_states)

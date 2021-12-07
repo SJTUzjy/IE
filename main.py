@@ -4,7 +4,7 @@ from utils.data import MyDataset
 from model import *
 from tqdm import tqdm
 import os
-Batch_size=32
+Batch_size=16
 model_name="hfl/chinese-xlnet-base"
 #device=torch.device("cpu")
 device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -86,7 +86,7 @@ def eval(model,optimizer,val_dataloader,epoch):
 
 if __name__ == '__main__':
     set_seed(2)
-    dataset = MyDataset('long_comments_delete_english.csv')
+    dataset = MyDataset('long_comments_delete_english_small.csv')
     train_size=int(0.8*len(dataset))
     val_size=len(dataset)-train_size
     train_dataset,val_dataset=torch.utils.data.random_split(dataset,[train_size,val_size])
@@ -102,8 +102,8 @@ if __name__ == '__main__':
     # for epoch in range(num_epoches):
     #     for token_idx,attn_masks,token_type_ids,label in train_dataloader:
     #         print(token_idx,attn_masks,token_type_ids, label)
-    model=MyModel(freeze_bert=False,model_name=model_name,bert_hidden_size=768,num_class=5)
-    criterion=MyLoss()
+    model=MyModel(freeze_bert=False,model_name=model_name,bert_hidden_size=768,num_class=1)
+    criterion=torch.nn.BCEWithLogitsLoss()  # Combined sigmoid and BCE
     optimizer=AdamW(model.parameters(),lr=1e-5,weight_decay=1e-2)
     #model = model.to("cuda:0")
     #model, optimizer = load(model, optimizer, "./checkpoint_model_episode_1_score_0.5285413561847988.pth")
