@@ -29,7 +29,7 @@ class MyDataset(Dataset):
         attn_masks=encoder_pair["attention_mask"].squeeze(0)#binary tnesor with "0" for padded value and "1" for other value
         token_type_ids=encoder_pair["token_type_ids"].squeeze(0)#binary tensor with "0" for the 1st sentence token and "1" for the 2nd sentence tokens,and "3" for padding tokens
         #print(tmp[3])
-        label=int(tmp[6])-1#为五分类问题,从0到4
+        label=int(tmp[6])
         return token_idx,attn_masks,token_type_ids,label
 
     def __len__(self):

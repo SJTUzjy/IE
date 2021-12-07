@@ -33,6 +33,7 @@ class MyModel(nn.Module):
                 nn.Linear(lstm_hidden_dim,128),
                 nn.ReLU()
             )
+
         self.layer2=nn.Linear(128,num_class)
         # self.fc=nn.Sequential(
         #     nn.Dropout(p=0.5),
