@@ -21,6 +21,7 @@ def set_seed(seed):
 
 def train_eval(model,criterion,optimizer,train_dataloader,val_dataloader,epochs=100):
     model.to(device)
+    criterion.to(device)
     print("----------begin to train---------")
     epoch_loss=0
     for epoch in range(epochs):
@@ -32,7 +33,7 @@ def train_eval(model,criterion,optimizer,train_dataloader,val_dataloader,epochs=
             logits=model(batch[0],batch[1],batch[2])
             loss=criterion(logits,batch[3])
 
-            epoch_loss+=loss.item()
+            epoch_loss+=loss
 
             optimizer.zero_grad()
             loss.backward()
@@ -102,7 +103,7 @@ if __name__ == '__main__':
     #     for token_idx,attn_masks,token_type_ids,label in train_dataloader:
     #         print(token_idx,attn_masks,token_type_ids, label)
     model=MyModel(freeze_bert=False,model_name=model_name,bert_hidden_size=768,num_class=5)
-    criterion=nn.CrossEntropyLoss()
+    criterion=MyLoss()
     optimizer=AdamW(model.parameters(),lr=1e-5,weight_decay=1e-2)
     #model = model.to("cuda:0")
     #model, optimizer = load(model, optimizer, "./checkpoint_model_episode_1_score_0.5285413561847988.pth")

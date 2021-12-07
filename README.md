@@ -16,3 +16,9 @@
 
 12.7
 + Develop the dataclean_script, now it will generate non-english dataset in default
+
+
+
+12.7 
+
+* 修改了loss function的定义，将cross-entropy与MSE结合。参考`model.py`中的`MyLoss`。

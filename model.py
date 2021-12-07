@@ -1,12 +1,30 @@
 from torch import nn
 from transformers import AutoModel,AutoModelForSequenceClassification
 import torch
+import torch.nn.functional as F
 import numpy as np
 import random
 
 device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 #初步定义模型，需要修改完善
+class MyLoss(nn.Module):
+    def __init__(self):
+        super(MyLoss,self).__init__()
+        self.label=torch.arange(1,6).reshape(1,5)
+
+    def forward(self,output,label):
+        cross_entropy=F.cross_entropy(output,label)
+        softmax_output=F.softmax(output,dim=1)
+        tmp=softmax_output*self.label
+        weight_sum=torch.sum(tmp,dim=1)
+        label=label.float()
+        mse=F.mse_loss(weight_sum,label+1)
+
+        loss=mse+cross_entropy
+        return loss
+
+
 class MyModel(nn.Module):
     def __init__(self,freeze_bert=False,model_name="hfl/chinese-xlnet-base",bert_hidden_size=768,num_class=5,lstm_hidden_dim=384,n_layers=2,bidirectional=True):
         super(MyModel,self).__init__()
