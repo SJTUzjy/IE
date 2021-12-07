@@ -86,7 +86,7 @@ def eval(model,optimizer,val_dataloader,epoch):
 
 if __name__ == '__main__':
     set_seed(2)
-    dataset = MyDataset('long_comments.csv')
+    dataset = MyDataset('long_comments_delete_english.csv')
     train_size=int(0.8*len(dataset))
     val_size=len(dataset)-train_size
     train_dataset,val_dataset=torch.utils.data.random_split(dataset,[train_size,val_size])
