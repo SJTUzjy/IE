@@ -4,7 +4,7 @@ from utils.data import MyDataset
 from model import *
 from tqdm import tqdm
 import os
-Batch_size=256
+Batch_size=32
 model_name="hfl/chinese-xlnet-base"
 #device=torch.device("cpu")
 device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -38,8 +38,7 @@ def train_eval(model,criterion,optimizer,train_dataloader,val_dataloader,epochs=
             loss.backward()
             optimizer.step()
 
-            if i%100==0:
-                eval(model,optimizer,val_dataloader,epoch)
+        eval(model,optimizer,val_dataloader,epoch)
 
 #计算正确率
 def flat_accuracy(pred,label):
@@ -105,6 +104,7 @@ if __name__ == '__main__':
     model=MyModel(freeze_bert=False,model_name=model_name,bert_hidden_size=768,num_class=5)
     criterion=nn.CrossEntropyLoss()
     optimizer=AdamW(model.parameters(),lr=1e-5,weight_decay=1e-2)
-
+    #model = model.to("cuda:0")
+    #model, optimizer = load(model, optimizer, "./checkpoint_model_episode_1_score_0.5285413561847988.pth")
     train_eval(model,criterion,optimizer,train_dataloader,val_dataloader,epochs=100)
     
