@@ -11,7 +11,7 @@ device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 class MyLoss(nn.Module):
     def __init__(self):
         super(MyLoss,self).__init__()
-        self.label=torch.arange(1,6).reshape(1,5)
+        self.label=torch.arange(1,6).reshape(1,5).to(device)
 
     def forward(self,output,label):
         cross_entropy=F.cross_entropy(output,label)
