@@ -81,5 +81,5 @@ class MyModel(nn.Module):
         #logits=self.fc(first_hidden_states)
         #return output
 
-
-
+    def predict(self):
+        pass

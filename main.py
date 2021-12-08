@@ -43,9 +43,9 @@ def train_eval(model,criterion,optimizer,train_dataloader,val_dataloader,epochs=
 
 #计算正确率
 def flat_accuracy(pred,label):
-    pred_flat=np.argmax(pred,axis=1).flatten()
-    label_flat=label.flatten()
-    return np.sum(pred_flat==label_flat)/len(label_flat)
+    pred_flat = pred.flatten()
+    label_flat = label.flatten()
+    return np.sum(((pred_flat - 0.5) > 0) == label_flat) / len(label_flat)
 
 
 
