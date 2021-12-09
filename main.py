@@ -45,7 +45,7 @@ def train_eval(model,criterion,optimizer,train_dataloader,val_dataloader,epochs=
 def flat_accuracy(pred,label):
     pred_flat = pred.flatten()
     label_flat = label.flatten()
-    return np.sum(((pred_flat - 0.5) > 0) == label_flat) / len(label_flat)
+    return np.sum(pred_flat == label_flat) / len(label_flat)
 
 
 
@@ -70,7 +70,7 @@ def eval(model,optimizer,val_dataloader,epoch):
     for i,batch in enumerate(tqdm(val_dataloader)):
         batch=tuple(t.to(device) for t in batch)
         with torch.no_grad():
-            logits=model(batch[0],batch[1],batch[2])
+            logits=model.predict(batch[0],batch[1],batch[2])
             logits=logits.detach().cpu().numpy()
             label=batch[3].cpu().numpy()
             tmp_eval_accuracy=flat_accuracy(logits,label)

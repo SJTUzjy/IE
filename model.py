@@ -81,5 +81,7 @@ class MyModel(nn.Module):
         #logits=self.fc(first_hidden_states)
         #return output
 
-    def predict(self):
-        pass
+    def predict(self, input_ids, attn_masks, token_type_ids):
+        output = self.forward(input_ids,attn_masks,token_type_ids)
+        return (output - 0.5) >= 0.0
+        

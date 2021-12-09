@@ -28,9 +28,10 @@ class MyDataset(Dataset):
         attn_masks=encoder_pair["attention_mask"].squeeze(0)    #binary tensor with "0" for padded value and "1" for other value
         token_type_ids=encoder_pair["token_type_ids"].squeeze(0)    #binary tensor with "0" for the 1st sentence token and "1" for the 2nd sentence tokens,and "3" for padding tokens
         #print(tmp[3])
-        if int(tmp[6]) > 3: label = float(1)
-        elif int(tmp[6]) < 3: label = float(0)
-        return token_idx,attn_masks,token_type_ids,label
+        label_5 = int(tmp[6])-1
+        if int(tmp[6]) > 3: label_2 = float(1)
+        elif int(tmp[6]) < 3: label_2 = float(0)
+        return token_idx, attn_masks, token_type_ids, label_2
 
     def __len__(self):
         return len(self.data)
