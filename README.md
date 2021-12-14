@@ -22,3 +22,7 @@
 12.7 
 
 * 修改了loss function的定义，将cross-entropy与MSE结合。参考`model.py`中的`MyLoss`。
+
+12.14
+* 增加了CNN-GloVe作为baseline！小规模开发集有效。
+* 调整了工程目录结构，原有文件大部分迁移至`BERT_BiLSTM`文件夹中。注意，代码中的文件目录位置并没有修改，运行时先请确认文件目录是否仍然正确。
