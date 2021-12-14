@@ -1,6 +1,7 @@
 import torch
 from transformers import AdamW
 from utils.data import MyDataset
+from transformers import AutoModel,AutoModelForSequenceClassification
 from model import *
 from tqdm import tqdm
 import os
@@ -31,9 +32,11 @@ def train_eval(model,criterion,optimizer,train_dataloader,val_dataloader,epochs=
         for i,batch in enumerate(tqdm(train_dataloader)):
             batch=tuple(t.to(device)for t in batch)
             logits=model(batch[0],batch[1],batch[2])
+            #logits=model(batch[0],batch[1],batch[2],labels=batch[3])
+
             loss=criterion(logits,batch[3])
 
-            epoch_loss+=loss
+            epoch_loss+=loss.item()
 
             optimizer.zero_grad()
             loss.backward()
@@ -102,9 +105,9 @@ if __name__ == '__main__':
     # for epoch in range(num_epoches):
     #     for token_idx,attn_masks,token_type_ids,label in train_dataloader:
     #         print(token_idx,attn_masks,token_type_ids, label)
-    model=MyModel(freeze_bert=True,model_name=model_name,bert_hidden_size=768,num_class=2)
+    model=MyModel(freeze_bert=False,model_name=model_name,bert_hidden_size=768,num_class=2)
     criterion=torch.nn.CrossEntropyLoss()  # Combined sigmoid and BCE
-    optimizer=AdamW(model.parameters(),lr=1e-4,weight_decay=1e-2)
+    optimizer=AdamW(model.parameters(),lr=1e-5,weight_decay=1e-2)
     #model = model.to("cuda:0")
     #model, optimizer = load(model, optimizer, "./checkpoint_model_episode_1_score_0.5285413561847988.pth")
     train_eval(model,criterion,optimizer,train_dataloader,val_dataloader,epochs=100)
