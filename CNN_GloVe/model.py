@@ -22,6 +22,7 @@ class MyModel(nn.Module):
         x = x.float()
         x = self.conv(x)
         x = self.dense(x)
+        x = nn.ReLU(x)
         output = self.classify(x)
         return output.reshape(-1)
 
