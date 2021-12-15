@@ -83,6 +83,6 @@ class MyModel(nn.Module):
 
     def predict(self, input_ids, attn_masks, token_type_ids):
         output = self.forward(input_ids,attn_masks,token_type_ids)
-        idx=torch.argmax(output,dim=0)
+        idx=torch.max(output,dim=1)[1]
         return idx
         
