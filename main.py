@@ -5,7 +5,7 @@ from transformers import AutoModel,AutoModelForSequenceClassification
 from model import *
 from tqdm import tqdm
 import os
-Batch_size=1
+Batch_size=32
 model_name="hfl/chinese-xlnet-base"
 #device=torch.device("cpu")
 device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
