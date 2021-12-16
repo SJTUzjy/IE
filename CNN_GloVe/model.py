@@ -13,7 +13,10 @@ class MyModel(nn.Module):
             nn.MaxPool1d(kernel_size=3, stride=3),  # 32 x 200
             nn.Flatten()    # 6400
         )
-        self.dense = nn.Linear(6400, 50)
+        self.dense = nn.Sequential(
+            nn.Linear(6400, 50),
+            nn.ReLU()
+        )
         self.classify = nn.Linear(50, 1)
 
     def forward(self, x):
@@ -22,7 +25,6 @@ class MyModel(nn.Module):
         x = x.float()
         x = self.conv(x)
         x = self.dense(x)
-        x = nn.ReLU(x)
         output = self.classify(x)
         return output.reshape(-1)
 

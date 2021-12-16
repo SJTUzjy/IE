@@ -1,7 +1,7 @@
 import csv
 import jieba
 
-FILENAME = 'dataset\long_comments_delete_english_small.csv'
+FILENAME = 'dataset\long_comments_delete_english.csv'
 STOPWORD = 'dataset\hit_stopwords.txt'
 
 if __name__ == '__main__':

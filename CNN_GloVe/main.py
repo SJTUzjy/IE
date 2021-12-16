@@ -8,9 +8,9 @@ from model import MyModel
 from utils.data import MyDataset
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-DATASET = 'CNN_GloVe\comments_cleaned.txt'
-VECTOR = 'CNN_GloVe\glove_vectors.txt'
-BATCH_SIZE = 32
+DATASET = 'comments_cleaned.txt'
+VECTOR = 'glove_vectors.txt'
+BATCH_SIZE = 64
 DIMENSIONS = 50
 
 best_accuracy = 0.0
@@ -90,4 +90,4 @@ if __name__ == '__main__':
     criterion = torch.nn.BCEWithLogitsLoss()
     optimizer = AdamW(model.parameters(), lr=1e-5, weight_decay=1e-2)
 
-    train_eval(model, criterion, optimizer, train_dataloader, valid_dataloader, 5)
+    train_eval(model, criterion, optimizer, train_dataloader, valid_dataloader, 100)
