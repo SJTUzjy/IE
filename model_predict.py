@@ -35,7 +35,6 @@ if __name__ == '__main__':
     for element in elementsInput:
         element1 = element
         sentence = element.childNodes[0].nodeValue
-        print(sentence)
         encoder_pair= tokenizer(sentence,
                                     padding="max_length",
                                     truncation=True,
