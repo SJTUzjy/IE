@@ -105,7 +105,7 @@ if __name__ == '__main__':
     model=MyModel(freeze_bert=False,model_name=model_name,bert_hidden_size=768,num_class=2)
     criterion=torch.nn.CrossEntropyLoss()  # Combined sigmoid and BCE
     optimizer=AdamW(model.parameters(),lr=1e-5,weight_decay=1e-2)
-    #model = model.to("cuda:0")
-    #model, optimizer = load(model, optimizer, "./checkpoint_model_episode_1_score_0.5285413561847988.pth")
+    model = model.to("cuda:0")
+    model, optimizer = load(model, optimizer, "./checkpoint_model_episode_2_score_0.8907471124008735.pth")
     train_eval(model,criterion,optimizer,train_dataloader,val_dataloader,epochs=50)
     

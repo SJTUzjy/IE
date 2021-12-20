@@ -19,11 +19,11 @@ if __name__ == '__main__':
                 continue
             if len(row[6]) > 0 and int(row[6]) == 3:
                 continue
-            if len(row[3]) > 10 and len(row[6]) > 0:
+            if len(row[3]) > 10 and len(row[3]) < 64 and len(row[6]) > 0:
                 if rm_english(row[3]) == row[3]:
                     tmplf.append(row)
             # Small data to test binary classify.
             if t > 200000: break
-    with open('long_comments_delete_english_small.csv', 'w', newline="", encoding='utf-8') as lf:
+    with open('long_comments_delete_english_middle_small.csv', 'w', newline="", encoding='utf-8') as lf:
         writer = csv.writer(lf)
         writer.writerows(tmplf)
